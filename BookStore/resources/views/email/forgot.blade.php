@@ -2,7 +2,7 @@
 		
 </div><p>Xin chào {{$name}},</p>
 
-<p>Anh/chị đã yêu cầu đổi mật khẩu tại <strong>SkyBook</strong>.</p>
+<p>Anh/chị đã yêu cầu đổi mật khẩu tại <strong>BookStore</strong>.</p>
 
 <p>Anh/chị vui lòng truy cập vào liên kết dưới đây để thay đổi mật khẩu của Anh/chị nhé.</p>
 
@@ -15,5 +15,5 @@
 
 <p style="text-align:right"><i>Trân trọng,</i></p>
 
-<p style="text-align:right"><strong>Ban quản trị cửa hàng SkyBook</strong></p>
+<p style="text-align:right"><strong>Ban quản trị cửa hàng BookStore</strong></p>
 </div>

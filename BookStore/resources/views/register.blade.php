@@ -38,7 +38,7 @@
                                     <fieldset class="form-group">
                                         <label>Họ và tên:</label>
                                         <input type="text" class="form-control form-control-lg" value=""
-                                            name="RegisterfullnameFE" id="RegisterfullnameFE" placeholder="Họ và tên"
+                                            name="RegisterfullnameFE" id="RegisterfullnameFE" placeholder="VD: Nguyễn Văn A"
                                             required="" />
                                     </fieldset>
                                 </div>
@@ -47,7 +47,7 @@
                                         <label>Email:</label>
                                         <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$"
                                             class="form-control form-control-lg" value="" name="RegisterEmailFE"
-                                            id="RegisterEmailFE" placeholder="" required="" />
+                                            id="RegisterEmailFE" placeholder="VD:  thanglong@gmail.com" required="" />
                                     </fieldset>
                                     <span class="error"></span>
 

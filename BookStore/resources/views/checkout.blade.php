@@ -34,7 +34,8 @@
             //   alert('500')
             // }
         </script>
-        <button class="order-summary-toggle" data-toggle="#order-summary" data-toggle-class="order-summary--is-collapsed">
+        <button class="order-summary-toggle" data-toggle="#order-summary"
+            data-toggle-class="order-summary--is-collapsed">
             <span class="wrap">
                 <span class="order-summary-toggle__inner">
                     <span class="order-summary-toggle__text expandable">
@@ -93,41 +94,118 @@
     <script>
         $('.input-radio').click(function(e) {
 
-            if ($(this).val() == 1) {
-                $('.content-box__row__desc').show();
-                $('.errpaymentMethod').empty();
-                
-                $('.spinner').click(function(e) {
-                  // e.preventDefault();
-                  var order_type = $('#order_type').val();
-                  if (order_type === '') {
-                        // alert('Please select')
-                        $(this).attr('checked', true);
-                        $('.content-box__row__desc').show();
-                        $('.err-order_type').fadeIn();
+            if ($(this).val()) {
+                $('.CheckMethodPay').hide();
+                if ($(this).val() == 1) {
+                    // alert($(this).val())
+                    // $('#vnpay').attr('checked', 'True');
+                    // $('#COD').attr('checked','False');
+                    $('.content-box__row__desc').show();
+                    $('.spinner').click(function(e) {
+                        if ($('#order_type').val() == '') {
+                            // e.preventDefault();
+                            $('.err-order_type').fadeIn();
 
-                        $('.err-order_type').html(`
+                            $('.err-order_type').html(`
+                            <p style='color:red;'>Bạn không được để trống loại hàng hóa!</p>
+                            `);
+                            setTimeout(() => {
+                                $('.err-order_type').fadeOut();
+                            }, 3000)
+                        }
+                        // location.reload();
+                        // location.reload(false)
+
+
+                        // $('#vnpay').attr('checked', 'False');
+                        // e.stopImmediatePropagation();
+                    })
+                }
+                if ($(this).val() == 0) {
+                    // $('.spinnerCOD').click(function() {
+
+                        // alert('500')
+                        $('.content-box__row__desc').hide();
+                    // })
+                    // $('#COD').attr('checked', 'True');
+                    // $('#vnpay').attr('checked','False');
+
+
+                }
+                /*if ($selectPay == 1) {
+                
+                                $('.content-box__row__desc').show();
+                                $('.errpaymentMethod').empty();
+                                $('.spinner').click(function(e) {
+                                    // e.preventDefault();
+                                    var order_type = $('#order_type').val();
+                                    // if (order_type == '') {
+                                        // alert($selectPay)
+                                        $(this).attr('checked', true);
+                                        $('.content-box__row__desc').show();
+                                        $('.err-order_type').fadeIn();
+                
+                                        $('.err-order_type').html(`
                       <p style='color:red;'>Bạn không được để trống loại hàng hóa!</p>
                       `);
-                        setTimeout(() => {
-                            $('.err-order_type').fadeOut();
-                        }, 3000)
-                        // $('.err-order_type').
-                        e.preventDefault();
-                    }
-                });
-              
-
-            } else {
-                $('.content-box__row__desc').hide();
-                $('.errpaymentMethod').empty();
-
-
+                                        setTimeout(() => {
+                                            $('.err-order_type').fadeOut();
+                                        }, 3000)
+                                        // $('.err-order_type').
+                                    // }
+                                    // e.preventDefault();
+                                });
+                
+                            }
+                            if ($selectPay == 0) {
+                                $('.content-box__row__desc').hide();
+                            }*/
             }
         })
-        $('.input_shipper').click(function(e){
-            $('.errshipper').empty();
+        $('.input_shipper').click(function() {
+            if ($(this).val() != 0) {
+                $('.checkShipper').hide();
+            }
         })
+        // $('.input-radio').click(function(e) {
+
+        //     if ($(this).val() == 1) {
+        //         $('.content-box__row__desc').show();
+        //         $('.errpaymentMethod').empty();
+
+        //         $('.spinner').click(function(e) {
+        //           // e.preventDefault();
+        //           var order_type = $('#order_type').val();
+        //           if (order_type === '') {
+        //                 // alert('Please select')
+        //                 $(this).attr('checked', true);
+        //                 $('.content-box__row__desc').show();
+        //                 $('.err-order_type').fadeIn();
+
+        //                 $('.err-order_type').html(`
+    //               <p style='color:red;'>Bạn không được để trống loại hàng hóa!</p>
+    //               `);
+        //                 setTimeout(() => {
+        //                     $('.err-order_type').fadeOut();
+        //                 }, 3000)
+        //                 // $('.err-order_type').
+        //                 e.preventDefault();
+        //             }
+        //         });
+
+
+        //     } else {
+        //         $('.content-box__row__desc').hide();
+        //         $('.errpaymentMethod').empty();
+        //         $(this).attr('checked', true);
+
+
+
+        //     }
+        // })
+        // $('.input_shipper').click(function(e){
+        //     $('.errshipper').empty();
+        // })
     </script>
 </body>
 

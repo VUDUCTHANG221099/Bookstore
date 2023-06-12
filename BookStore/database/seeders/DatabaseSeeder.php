@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
                 'rules' => 1,
             ],
         ];
+
         DB::table('users')->insert($users);
         \App\Models\User::factory(500)->create();
         // $category=[
@@ -49,64 +50,64 @@ class DatabaseSeeder extends Seeder
         // ];
         // DB::table('payment')->insert($payment);
 
-        
-        $shipper=[
+
+        $shipper = [
             [
-                'shipper_name'=>'VNPost – EMS (Bưu điện Việt Nam)',
-                'slug'=>Str::slug('VNPost – EMS (Bưu điện Việt Nam)'),
-                'logo'=>"vnpost-ems-buu-dien-viet-nam.png"
+                'shipper_name' => 'VNPost – EMS (Bưu điện Việt Nam)',
+                'slug' => Str::slug('VNPost – EMS (Bưu điện Việt Nam)'),
+                'logo' => "vnpost-ems-buu-dien-viet-nam.png"
             ],
             [
-                'shipper_name'=>'Viettel Post',
-                'slug'=>Str::slug('Viettel Post'),
-                'logo'=>"viettel-post.png"
+                'shipper_name' => 'Viettel Post',
+                'slug' => Str::slug('Viettel Post'),
+                'logo' => "viettel-post.png"
             ],
             [
-                'shipper_name'=>'Giaohangnhanh – GHN',
-                'slug'=>Str::slug('Giaohangnhanh – GHN'),
-                'logo'=>"giaohangnhanh-ghn.png"
+                'shipper_name' => 'Giaohangnhanh – GHN',
+                'slug' => Str::slug('Giaohangnhanh – GHN'),
+                'logo' => "giaohangnhanh-ghn.png"
             ],
             [
-                'shipper_name'=>'Giaohangtietkiem – GHTK',
-                'slug'=>Str::slug('Giaohangtietkiem – GHTK'),
-                'logo'=>"giaohangtietkiem-ghtk.png"
+                'shipper_name' => 'Giaohangtietkiem – GHTK',
+                'slug' => Str::slug('Giaohangtietkiem – GHTK'),
+                'logo' => "giaohangtietkiem-ghtk.png"
             ],
             [
-                'shipper_name'=>'J&T Express',
-                'slug'=>Str::slug('J&T Express'),
-                'logo'=>"jt-express.png"
+                'shipper_name' => 'J&T Express',
+                'slug' => Str::slug('J&T Express'),
+                'logo' => "jt-express.png"
             ],
         ];
         DB::table('shipper')->insert($shipper);
 
-        $ads=[
+        $ads = [
             [
-                'title'=>'Mỗi ngày một tựa sách. Nâng niu từng trang tri thức',
-                'slug'=>Str::slug('Mỗi ngày một tựa sách. Nâng niu từng trang tri thức'),
-                'avatar'=>'moi-ngay-mot-tua-sach-nang-niu-tung-trang-tri-thuc.png',
-                'type'=>1,
-                'create_at'=>Carbon::now(),
+                'title' => 'Mỗi ngày một tựa sách. Nâng niu từng trang tri thức',
+                'slug' => Str::slug('Mỗi ngày một tựa sách. Nâng niu từng trang tri thức'),
+                'avatar' => 'moi-ngay-mot-tua-sach-nang-niu-tung-trang-tri-thuc.png',
+                'type' => 1,
+                'create_at' => Carbon::now(),
             ],
             [
-                'title'=>'Bọc sách thêm đẹp. Nâng niu từng trang tri thức',
-                'slug'=>Str::slug('Bọc sách thêm đẹp. Nâng niu từng trang tri thức'),
-                'avatar'=>'boc-sach-them-dep-nang-niu-tung-trang-tri-thuc.png',
-                'type'=>1,
-                'create_at'=>Carbon::now(),
+                'title' => 'Bọc sách thêm đẹp. Nâng niu từng trang tri thức',
+                'slug' => Str::slug('Bọc sách thêm đẹp. Nâng niu từng trang tri thức'),
+                'avatar' => 'boc-sach-them-dep-nang-niu-tung-trang-tri-thuc.png',
+                'type' => 1,
+                'create_at' => Carbon::now(),
             ],
             [
-                'title'=>'Kho tàng tri thức',
-                'slug'=>Str::slug('Kho tàng tri thức'),
-                'avatar'=>'kho-tang-tri-thuc.png',
-                'type'=>2,
-                'create_at'=>Carbon::now(),
+                'title' => 'Kho tàng tri thức',
+                'slug' => Str::slug('Kho tàng tri thức'),
+                'avatar' => 'kho-tang-tri-thuc.png',
+                'type' => 2,
+                'create_at' => Carbon::now(),
             ],
             [
-                'title'=>'Chúng tôi mang tri thức đến cho bạn',
-                'slug'=>Str::slug('Chúng tôi mang tri thức đến cho bạn'),
-                'avatar'=>'chung-toi-mang-tri-thuc-den-cho-ban.png',
-                'type'=>0,
-                'create_at'=>Carbon::now(),
+                'title' => 'Chúng tôi mang tri thức đến cho bạn',
+                'slug' => Str::slug('Chúng tôi mang tri thức đến cho bạn'),
+                'avatar' => 'chung-toi-mang-tri-thuc-den-cho-ban.png',
+                'type' => 0,
+                'create_at' => Carbon::now(),
             ],
         ];
         DB::table('ads')->insert($ads);

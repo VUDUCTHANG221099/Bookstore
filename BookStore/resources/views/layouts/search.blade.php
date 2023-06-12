@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    {{Request()->get('keyword')}}
+    {{ Request()->get('keyword') }}
 @endsection
 @section('content')
     <section class="signup search-main">
@@ -21,10 +21,10 @@
                     </div>
 
                     <form action="{{ route('search') }}" method="get" class="col-xs-12 form-signup">
-                        
+
                         <fieldset class="form-group">
-                            <input type="text" name="keyword" 
-                                placeholder="Tìm kiếm ..." autocomplete="off" class="form-control form_search_h" required />
+                            <input type="text" name="keyword" placeholder="Tìm kiếm ..." autocomplete="off"
+                                class="form-control form_search_h" required />
 
                             <button type="submit" class="btn-style btn-style-active btn btn-primary btn_search_h">
                                 Tìm kiếm
@@ -36,7 +36,8 @@
                 <div class="row">
                     <div class="col-xs-12 margin-bottom-15">
                         <h1 class="bg-success padding-15 margin-bottom-15 title-head title_search">
-                            Có <b>{{count($search)}}</b> kết quả tìm kiếm với từ khoá <b>"{{ Request()->get('keyword') }}"</b>
+                            Có <b>{{ count($search) }}</b> kết quả tìm kiếm với từ khoá
+                            <b>"{{ Request()->get('keyword') }}"</b>
                         </h1>
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-bottom-30">
@@ -50,23 +51,25 @@
                                                 <div class="item">
                                                     <div class="product-box product-item-main product-item-compare">
                                                         <div class="product-thumbnail">
-                                                            <a class="image_thumb p_img thumb_search" href="javascript:void(0)"
-                                                                title="{{$item->book_name}}">
+                                                            <a class="image_thumb p_img thumb_search"
+                                                                href="{{ route('bookDetailsFE', ['book_slug' => $item->book_slug]) }}"
+                                                                title="{{ $item->book_name }}">
                                                                 <img class="img-responsive lazyload loaded"
                                                                     src="{{ isset($item->avatar) ? asset("images/book/$item->avatar") : asset('images/default.jpg') }}"
                                                                     alt="" data-was-processed="true" />
                                                             </a>
 
-                                                            <button title="Xem nhanh" value="{{$item->book_slug}}"
+                                                            <button title="Xem nhanh" value="{{ $item->book_slug }}"
                                                                 class="xem_nhanh btn-circle btn_view btn right-to quick-view hidden-xs hidden-sm">
-                                                                
+
                                                                 <i class="fa fa-eye"></i>
                                                             </button>
                                                         </div>
                                                         <div class="product-info product-bottom mh">
                                                             <h3 class="product-name" style="pointer-events: auto">
-                                                                <a href="#"
-                                                                    title="{{ $item->book_name }}">{{ $item->book_name }}</a>
+                                                                <a href="{{ route('bookDetailsFE', ['book_slug' => $item->book_slug]) }}"
+                                                                    title="{{ $item->book_name }}">{{ $item->book_name }}
+                                                                </a>
                                                             </h3>
 
                                                             <div class="section">
@@ -74,7 +77,7 @@
                                                                     <div class="product-item-price price-box">
                                                                         <span class="special-price">
                                                                             <span class="price product-price"><span
-                                                                                    class="money">{{ $item->price * 0.8 }}</span>₫</span>
+                                                                                    class="money">{{ $item->price - 3000 }}</span>₫</span>
                                                                         </span>
 
                                                                         <span class="product-item-price-sale old-price">
@@ -86,17 +89,20 @@
                                                                 </div>
                                                             </div>
                                                             <div class="product-action clearfix">
-                                                                <form action="/cart/add" method="post"
-                                                                    class="variants form-nut-grid"
-                                                                    data-id="product-actions-1200896"
-                                                                    enctype="multipart/form-data">
+                                                                <input type="hidden" value="1" id="qtym"
+                                                                    name="quality">
+
+                                                                <form class="variants form-nut-grid">
                                                                     <div class="group_action">
-                                                                        <input type="hidden" name="variantId"
-                                                                            value="1857538" />
-                                                                            <a class="btn-buy firstb btn-cart button_35 left-to muangay add_to_cart"
-                                                                            title="{{$item->status==1?"Thêm giỏ hàng":'Hết hàng'}}">
-                                                                            {{$item->status==1?"Thêm giỏ hàng":'Hết hàng'}}
-                                                                        </a>
+
+                                                                        <button type="submit"
+                                                                            data-url="
+                                                                        {{ route('addToCart', ['id' => $item->id]) }}"
+                                                                            class="btn-buy firstb btn-cart
+                                                                    button_35 left-to muangay add_to_cart"
+                                                                            data-id="{{ $item->id }}"
+                                                                            title=" Thêm giỏ hàng">Thêm giỏ hàng
+                                                                        </button>
                                                                     </div>
                                                                 </form>
                                                             </div>

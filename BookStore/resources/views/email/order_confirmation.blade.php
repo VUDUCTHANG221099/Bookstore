@@ -19,7 +19,7 @@
 
                 <p>Đơn hàng của Anh/chị đã được tiếp nhận, chúng tôi sẽ nhanh chóng liên hệ với Anh/chị.</p>
 
-                <p>Để kiểm tra trạng thái đơn hàng, Anh/chị vui lòng Đăng nhập vào tài khoản.</p>
+                {{-- <p>Để kiểm tra trạng thái đơn hàng, Anh/chị vui lòng Đăng nhập vào tài khoản.</p> --}}
                 <strong>Thông tin người mua</strong><br>
 
                 <table>
@@ -89,13 +89,13 @@
                             @foreach ($cart as $order)
                                 {{-- {{ dd($order->avatar)}} --}}
                                 @php
-                                    $total += $order->quantity * $order->price;
+                                    $total += $order->quantity * ($order->price-3000);
                                 @endphp
                                 <tr>
                                     <td>{{$order->book_name}}</td>
 
                                     <td style="text-align:center;width:100px">{{$order->quantity}}</td>
-                                    <td style="text-align:right;width:150px">{{number_format($order->price)}} VND</td>
+                                    <td style="text-align:right;width:150px">{{number_format($order->price-3000)}} VND</td>
                                 </tr>
                                 @endforeach
                             @endif

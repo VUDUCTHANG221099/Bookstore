@@ -14,7 +14,7 @@
                     <div class="radio-wrapper">
                         <div class="radio__input">
                             <input name="paymentMethod" id="COD" type="radio" class="input-radio"
-                                data-bind="paymentMethod" value="0" />
+                                data-bind="paymentMethod" value="0"  />
                         </div>
                         <label for="COD" class="radio__label">
                             <span class="radio__label__primary">Thanh toán khi giao hàng (COD)</span>
@@ -31,6 +31,7 @@
                         <div class="radio__input">
                             <input name="paymentMethod" id="vnpay" type="radio" class="input-radio"
                                 data-bind="paymentMethod" value="1" />
+                                
                         </div>
                         <label for="vnpay" class="radio__label">
                             <span class="radio__label__primary">Thanh toán qua VNPAY</span>
@@ -204,10 +205,13 @@
                     </div>
                 </div>
             </div>
-            @if ($errors->any())
-                {!! $errors->first('paymentMethod') !!}
-                {{-- {!! $errors->first('shipper') !!} --}}
-            @endif
+            <span class="CheckMethodPay">
+
+                @if ($errors->any())
+                    {!! $errors->first('paymentMethod') !!}
+                    {{-- {!! $errors->first('shipper') !!} --}}
+                @endif
+            </span>
             
         </div>
 
@@ -244,11 +248,13 @@
                     @endif
                     
                 </div>
-                
-                @if ($errors->any())
-                    {{-- {!! $errors->first('order_type') !!} --}}
-                    {!! $errors->first('shipper') !!}
-                @endif
+                <span class="checkShipper">
+
+                    @if ($errors->any())
+                        {{-- {!! $errors->first('order_type') !!} --}}
+                        {!! $errors->first('shipper') !!}
+                    @endif
+                </span>
         </div>
        
 

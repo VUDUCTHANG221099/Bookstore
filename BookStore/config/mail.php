@@ -93,7 +93,7 @@ return [
 
     'from' => [
         'address' => 'php.laravel.serve@gmail.com',
-        'name' => 'SkyBook',
+        'name' => 'Bookstore',
     ],
 
     /*
