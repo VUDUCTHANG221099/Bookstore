@@ -75,7 +75,7 @@
                                     id="order-summary">
                                     <div class="order-summary__header">
                                         <div class="order-summary__title">
-                                            Đơn hàng #{{ $id_code->id_code}}
+                                            Đơn hàng #{{ $id_code}}
                                             <span class="unprintable">({{ $quantity }})</span>
                                         </div>
                                         <div class="order-summary__action hide-on-desktop unprintable">

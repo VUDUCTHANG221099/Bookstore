@@ -33,7 +33,7 @@
               >
                 <div class="adM"></div>
                 <p style="font-size: 20px">
-                  <strong>Chào mừng đến với SkyBook</strong>
+                  <strong>Chào mừng đến với Bookstore</strong>
                 </p>
   
                 <p>
@@ -85,7 +85,7 @@
                 <p style="text-align: right"><i>Trân trọng,</i></p>
   
                 <p style="text-align: right">
-                  <strong>Ban quản trị cửa hàng SkyBook </strong>
+                  <strong>Ban quản trị cửa hàng Bookstore </strong>
                 </p>
               </div>
              

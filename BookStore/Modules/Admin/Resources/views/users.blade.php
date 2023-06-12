@@ -14,6 +14,7 @@
                     <th>Avatar</th>
                     <th>Số điện thoại</th>
                     <th>Địa chỉ</th>
+                    <th>Status</th>
                     <th class="text-center">Hành động</th>
                 </tr>
             </thead>
@@ -31,6 +32,14 @@
                         </td>
                         <td>{{ $item->phone }}</td>
                         <td>{{ $item->address }}</td>
+                        <td>
+                            @if ($item->isOnline())
+                                <span class="text-success">Online</span>
+                            @else
+                            <span class="text-muted">Offline</span>
+
+                            @endif
+                        </td>
                         <td class="text-center">
                             <button value="{{ $item->id }}" class="EyeCustomer border border-white bg-white">
                                 <i class="fa fa-eye text-blue"></i>

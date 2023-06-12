@@ -45,7 +45,7 @@ class RegisterController extends Controller
             ];
             $emailRegister = $request->RegisterEmailFE;
             Mail::send('email.register', $viewData, function ($email) use ($emailRegister) {
-                $email->subject('Thông tin đăng ký tài khoản tại SkyBook');
+                $email->subject('Thông tin đăng ký tài khoản tại Bookstore');
                 $email->to($emailRegister);
             });
             return response()->json(['success' => 'Đăng ký thành công']);

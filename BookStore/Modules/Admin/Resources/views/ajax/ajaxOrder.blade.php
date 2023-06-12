@@ -1,4 +1,4 @@
-@push('scripts')
+{{-- @push('scripts')
     <script>
         $(document).ready(function() {
             $.ajaxSetup({
@@ -268,4 +268,4 @@
 
         })
     </script>
-@endpush
+@endpush --}}

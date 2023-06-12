@@ -126,11 +126,11 @@ Route::middleware(['CheckLoginMiddeware'])->group(function () {
         Route::get('/GetAds',[AdsController::class, 'GetAds'])->name('GetAds');
         Route::delete('/removeAds',[AdsController::class, 'RemoveAds'])->name('RemoveAds');
 
-        //Phương thức thanh toán
-        Route::post('/addPay',[PaymentController::class, 'AddPay'])->name('addPay');
-        Route::get('getPay',[PaymentController::class, 'GetPay'])->name('getPay');
-        Route::post('UpdatePay',[PaymentController::class, 'UpdatePay'])->name('UpdatePay');
-        Route::delete('/removePay', [PaymentController::class, 'destroy'])->name('RemovePay');
+        // //Phương thức thanh toán
+        // Route::post('/addPay',[PaymentController::class, 'AddPay'])->name('addPay');
+        // Route::get('getPay',[PaymentController::class, 'GetPay'])->name('getPay');
+        // Route::post('UpdatePay',[PaymentController::class, 'UpdatePay'])->name('UpdatePay');
+        // Route::delete('/removePay', [PaymentController::class, 'destroy'])->name('RemovePay');
 
         //Đơn vị vận chuyển
         Route::get('/getShipper',[ShipperController::class, 'GetShipper'])->name('GetShipper');

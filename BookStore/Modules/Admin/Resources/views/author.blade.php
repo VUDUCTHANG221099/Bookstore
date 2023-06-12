@@ -33,7 +33,7 @@
             <h5 class="card-title;" title="{{$item->author_name}}"><span class="font-weight-bold" >Tác giả</span>: 
                 {{
                     ($str::length($item->author_name) > 10
-                    ? $str::words($item->author_name, 1, '...')
+                    ? $str::words($item->author_name, 1, '.')
                     : $item->author_name)
 
                 }}

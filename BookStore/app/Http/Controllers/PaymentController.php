@@ -107,6 +107,9 @@ class PaymentController extends Controller
                     // dd($request->amount);
 
                     $paymentName = "Thanh toán qua VNPAY";
+                    if(empty($request->order_type)){
+                        return redirect()->back();
+                    }
                     // $messages = [
                     //     'order_type.required' => "<p style='color:red;'>Bạn không được để trống loại hàng hóa!</p>"
                     // ];
@@ -120,7 +123,7 @@ class PaymentController extends Controller
                     date_default_timezone_set('Asia/Ho_Chi_Minh');
 
                     $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-                    $vnp_Returnurl = "http://127.0.0.1:8000/cam-on/" . session()->get('book_token') . "/vnpay";
+                    $vnp_Returnurl = route('vnpay', ['token_vnpay' => session()->get('book_token')]);
                     $vnp_TmnCode = "Y4U88XFK";
                     // "ZFY9V6CA"; //Mã website tại VNPAY 
                     $vnp_HashSecret = "DTHXNFNBUMNKFKQOZVHTXUXNUQUUXMTV";
@@ -208,7 +211,8 @@ class PaymentController extends Controller
             $datetime = session()->get('datetime');
             $cart = DB::table('sessions')->where('user_id', Auth::user()->id)->get();
 
-            $id_code = DB::table('sessions')->where('user_id', Auth::user()->id)->groupBy('id_code', 'id_shipper')->select('id_code', 'id_shipper')->first();
+            $id_code = DB::table('sessions')->where('user_id', Auth::user()->id)
+                ->groupBy('id_code', 'id_shipper')->select('id_code', 'id_shipper')->first();
             $user = Auth::user();
             $shipper = Shipper::find($id_code->id_shipper);
             $customer = Customer::where(['users_id' => $user->id, 'status' => 1])->first();
@@ -219,24 +223,11 @@ class PaymentController extends Controller
 
 
 
+
+
             if (isset($cart) and count($cart) > 0) {
-                // dd($cart);
                 foreach ($cart as  $book) {
-                    $checkQuantity = DB::table('book')->Join('order', 'order.book_id', 'book.id')
-                        ->where('order.book_id', $book->id_book)->select('book.quantity')->first()->quantity;
-
-
-
-                    if ($checkQuantity > 0) {
-                        DB::table('book')->Join('order', 'order.book_id', 'book.id')
-                            ->where('order.book_id', $book->id_book)->update(
-                                ['book.quantity' => $checkQuantity - $book->quantity]
-                            );
-                    } 
-                    //    echo $checkQuantity;
-                    // $quantity += $book['quantity'];
-                    // dd($quantity);
-
+                    // dd($book);
                     $this->order->AddOrder(
                         $id_code->id_code,
                         $customer->id,
@@ -246,7 +237,33 @@ class PaymentController extends Controller
                         $id_code->id_shipper,
                         $datetime
                     );
-                  
+                    $checkQuantity = DB::table('book')->Join('order', 'order.book_id', 'book.id')
+                        ->where('order.book_id', $book->id_book)->select('book.quantity')->first();
+                    // $checkQuantity = DB::table('book')->Join('order', 'order.book_id', 'book.id')
+                    // ->where('order.book_id', $book->id_book)->select('book.quantity')->first();
+
+
+                    // dd();
+                    if ($checkQuantity->quantity > 0) {
+                        $quantitySum = $checkQuantity->quantity - $book->quantity;
+                        DB::table('book')->Join('order', 'order.book_id', 'book.id')
+                            ->where('order.book_id', $book->id_book)->update(
+                                ['book.quantity' => $quantitySum]
+                            );
+                    } else {
+                        DB::table('book')->Join('order', 'order.book_id', 'book.id')
+                            ->where('order.book_id', $book->id_book)->update(
+                                ['book.status' => 0]
+                            );
+                    }
+                    // dd($checkQuantity->quantity);
+
+                    //    echo $checkQuantity;
+                    // $quantity += $book['quantity'];
+                    // dd($quantity);
+
+
+
                     // DB::table('order')->insert([
                     //     "id_code" => $id_code,
                     //     "customer_id" => $customer->id,
@@ -291,15 +308,16 @@ class PaymentController extends Controller
                 'datetime' => $datetime,
                 'shipper' => $shipper->shipper_name,
                 'paymentName' => $paymentName,
-                'id_code' => $id_code,
+                'id_code' => $id_code->id_code,
             ];
             //Email
-            // $order_confirmation = $user->email;
-            // $title = "Xác nhận đơn hàng #" . $id_code;
-            // Mail::send('email.order_confirmation', $viewData, function ($email) use ($order_confirmation, $title) {
-            //     $email->subject($title);
-            //     $email->to($order_confirmation);
-            // });
+            $order_confirmation = $user->email;
+            $title = "Xác nhận đơn hàng # $id_code->id_code";
+            Mail::send('email.order_confirmation', $viewData, function ($email) use ($order_confirmation, $title) {
+                $email->subject($title);
+                $email->to($order_confirmation);
+            });
+            // dd($order_confirmation);
             //Email
 
             session()->forget('book_token');
@@ -340,6 +358,16 @@ class PaymentController extends Controller
 
                 if (isset($cart) and count($cart) > 0) {
                     foreach ($cart as  $book) {
+                        $this->order->AddOrder(
+                            $id_code->id_code,
+                            $customer->id,
+                            $book->id_book,
+                            $book->quantity,
+                            $paymentName,
+                            $id_code->id_shipper,
+                            $datetime
+                        );
+                        DB::table("order")->where("id_code", $id_code->id_code)->update(['status' => 1]);
                         // $quantity += $book['quantity'];
                         // dd($quantity);
                         // DB::table('order')->insert([
@@ -355,14 +383,17 @@ class PaymentController extends Controller
                         //     'updated_at' => $datetime,
                         // ]);
                         $checkQuantity = DB::table('book')->Join('order', 'order.book_id', 'book.id')
-                            ->where('order.book_id', $book->id_book)->select('book.quantity')->first()->quantity;
+                            ->where('order.book_id', $book->id_book)->select('book.quantity')->first();
+                        // $checkQuantity = DB::table('book')->Join('order', 'order.book_id', 'book.id')
+                        // ->where('order.book_id', $book->id_book)->select('book.quantity')->first();
 
 
-
-                        if ($checkQuantity > 0) {
+                        // dd();
+                        if ($checkQuantity->quantity > 0) {
+                            $quantitySum = $checkQuantity->quantity - $book->quantity;
                             DB::table('book')->Join('order', 'order.book_id', 'book.id')
                                 ->where('order.book_id', $book->id_book)->update(
-                                    ['book.quantity' => $checkQuantity - $book->quantity]
+                                    ['book.quantity' => $quantitySum]
                                 );
                         } else {
                             DB::table('book')->Join('order', 'order.book_id', 'book.id')
@@ -370,16 +401,6 @@ class PaymentController extends Controller
                                     ['book.status' => 0]
                                 );
                         }
-                        $this->order->AddOrder(
-                            $id_code->id_code,
-                            $customer->id,
-                            $book->id_book,
-                            $book->quantity,
-                            $paymentName,
-                            $id_code->id_shipper,
-                            $datetime
-                        );
-                        DB::table("order")->where("id_code", $id_code->id_code)->update(['status' => 1]);
                     }
                 }
                 // foreach ($cart as $id => $book) {
@@ -411,15 +432,15 @@ class PaymentController extends Controller
                     'datetime' => $datetime,
                     'shipper' => $shipper->shipper_name,
                     'paymentName' => $paymentName,
-                    'id_code' => $id_code,
+                    'id_code' => $id_code->id_code,
                 ];
                 //Email
-                // $order_confirmation = $user->email;
-                // $title = "Xác nhận đơn hàng #" . $id_code;
-                // Mail::send('email.order_confirmation', $viewData, function ($email) use ($order_confirmation, $title) {
-                //     $email->subject($title);
-                //     $email->to($order_confirmation);
-                // });
+                $order_confirmation = $user->email;
+                $title = "Xác nhận đơn hàng #" . $id_code->id_code;
+                Mail::send('email.order_confirmation', $viewData, function ($email) use ($order_confirmation, $title) {
+                    $email->subject($title);
+                    $email->to($order_confirmation);
+                });
                 //Email
 
                 //VNPAY
@@ -476,30 +497,32 @@ class PaymentController extends Controller
         } else {
             return view('errors.404');
         }
-        // if($token_vnpay== session()->get('book_token')){
-
-        // dd($request->all());
-        // dd(date('Y-m-d H:i:s',strtotime($request->vnp_PayDate)));
-
-        // }
-        /*
-        "vnp_Amount" => "5000000"
-  "vnp_BankCode" => "NCB"
-  "vnp_BankTranNo" => "VNP13757113"
-  "vnp_CardType" => "ATM"
-  "vnp_OrderInfo" => "Thanh toán mua sách 2022-05-26 13:17:01"
-  "vnp_PayDate" => "2022 05 26 13 17 56"
-  "vnp_ResponseCode" => "00"
-  "vnp_TmnCode" => "ZFY9V6CA"
-  "vnp_TransactionNo" => "13757113"
-  "vnp_TransactionStatus" => "00"
-  "vnp_TxnRef" => "20220526131701"
-  "vnp_SecureHash" => "d2349197f459b73f7dee3e3a0995a74898a1863d1db2af6bcae944a9fc243066"
-
-        */
+                
     }
 
-    // dd($request->all());
+            // dd($request->all());
 
 
 }
+
+// if($token_vnpay== session()->get('book_token')){
+
+                // dd($request->all());
+                // dd(date('Y-m-d H:i:s',strtotime($request->vnp_PayDate)));
+
+                // }
+                /*
+                "vnp_Amount" => "5000000"
+                        "vnp_BankCode" => "NCB"
+                "vnp_BankTranNo" => "VNP13757113"
+                "vnp_CardType" => "ATM"
+                "vnp_OrderInfo" => "Thanh toán mua sách 2022-05-26 13:17:01"
+                "vnp_PayDate" => "2022 05 26 13 17 56"
+                "vnp_ResponseCode" => "00"
+                "vnp_TmnCode" => "ZFY9V6CA"
+                "vnp_TransactionNo" => "13757113"
+                "vnp_TransactionStatus" => "00"
+                "vnp_TxnRef" => "20220526131701"
+                "vnp_SecureHash" => "d2349197f459b73f7dee3e3a0995a74898a1863d1db2af6bcae944a9fc243066"
+
+                        */
